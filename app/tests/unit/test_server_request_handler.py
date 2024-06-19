@@ -1,18 +1,13 @@
 from unittest.mock import MagicMock
-from app.utils import handle_client_request
+from app.utils import handle_client_request, read_json_file
 import app.utils as utils
+from app.config import Config
 
 
 def test_handle_client_request(mocker):
     client_socket = MagicMock()
-    server_storage = {
-        "SetA": [{"One": 1, "Two": 2}],
-        "SetB": [{"Three": 3, "Four": 4}],
-        "SetC": [{"Five": 5, "Six": 6}],
-        "SetD": [{"Seven": 7, "Eight": 8}],
-        "SetE": [{"Nine": 9, "Ten": 10}],
-    }
-    request_pattern = r"[A-z]+-[A-z]+"
+    server_storage = read_json_file(Config.SERVER_STORAGE)
+    request_pattern = Config.INPUT_REGEX
 
     mocker.patch("app.utils.recv_message", return_value="SetA-Two")
     mocker.patch(
