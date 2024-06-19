@@ -13,3 +13,5 @@ class Config:
     INVALID_REQUEST_MESSAGE = os.environ['invalid_request_message']
     DATA_NOT_FOUND_MESSAGE = os.environ['data_not_found_message']
     INPUT_REGEX = os.environ['input_regex']
+
+    recv_bufsize = int(os.environ['recv_bufsize'])

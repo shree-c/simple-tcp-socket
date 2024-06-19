@@ -31,15 +31,22 @@ def decrypt_message(encrypted_message, private_key):
 
 
 def recv_message(client_socket, server_private_key):
-    message = client_socket.recv(1024)
+    message = b""
+    while True:
+        message += client_socket.recv(Config.recv_bufsize)
+        # crude implementation to know the end of the message
+        if message.endswith(b"<end>") or len(message) == 0:
+            break
     if len(message) == 0:
         return None
+    message = message[:-5]
     return decrypt_message(message, server_private_key).decode("utf-8")
 
 
 def send_message(client_socket, message, client_public_key):
     encrypted_message = encrypt_message(message.encode("utf-8"), client_public_key)
-    client_socket.sendall(encrypted_message)
+        # crude implementation to know the end of the message
+    client_socket.sendall(encrypted_message + b"<end>")
 
 
 def get_current_timestamp():

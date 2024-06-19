@@ -1,0 +1,4 @@
+python-dotenv
+pytest
+pycryptodome
+pytest-mock
